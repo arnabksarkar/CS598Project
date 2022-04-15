@@ -544,10 +544,10 @@ if __name__ == "__main__":
 
     K.clear_session()
 
-    train(model_name='kaji_mach_final_no_mask_SEPSIS_pad14_attention', epochs=17,
-          synth_data=False, predict=True, target='SEPSIS', time_steps=14,
-          attention=True)
-    K.clear_session()
+    # train(model_name='kaji_mach_final_no_mask_SEPSIS_pad14_attention', epochs=17,
+    #       synth_data=False, predict=True, target='SEPSIS', time_steps=14,
+    #       attention=True)
+    # K.clear_session()
 #
 # ## BIG THREE ##
 #
