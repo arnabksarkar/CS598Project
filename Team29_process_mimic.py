@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 import pickle
 import math
 import re
@@ -19,6 +25,10 @@ def map_dict(elem, dictionary):
         return dictionary[elem]
     else:
         return np.nan
+
+
+# In[2]:
+
 
 ## Proper Classes ##       
         
@@ -170,6 +180,11 @@ class ParseItemID(object):
             for elem in value:
                 self.rev[elem] = key
             
+
+
+# In[3]:
+
+
 class MimicParser(object):
    
     ''' This class structures the MIMIC III and builds features then makes 24 hour windows '''
@@ -261,8 +276,13 @@ class MimicParser(object):
         self.hadm_dict = dict(zip(df['HADMID_DAY'], df['SUBJECT_ID']))
         df2 = pd.pivot_table(df, index='HADMID_DAY', columns='FEATURES',
                              values='VALUENUM', fill_value=np.nan)
+        #Team29: lose two columns with low counts (diabetes, blood culture) with above so try this
+        #        Interestingly this only happened on our Windows setup, not Mac
+        #https://stackoverflow.com/questions/60647377/why-np-std-and-pivot-tableaggfunc-np-std-return-the-different-result
+        #df3 = pd.pivot_table(df, index='HADMID_DAY', columns='FEATURES',
+        #                     values='VALUENUM', aggfunc=np.std, fill_value=0)
         df3 = pd.pivot_table(df, index='HADMID_DAY', columns='FEATURES',
-                             values='VALUENUM', aggfunc=np.std, fill_value=0)
+                             values='VALUENUM', aggfunc=(lambda x: np.std(x)), fill_value=0)
         df3.columns = ["{0}_std".format(i) for i in list(df2.columns)]
         df4 = pd.pivot_table(df, index='HADMID_DAY', columns='FEATURES',
                              values='VALUENUM', aggfunc=np.amin, fill_value=np.nan)
@@ -443,6 +463,12 @@ class MimicParser(object):
         df2['ct_angio'] = df2['HADM_ID'].apply(lambda x: 1 if x in hadm_id_set else 0)
         df2.to_csv(file_name[0:-4] + '_plus_notes.csv', index=False)
 
+
+
+
+# In[4]:
+
+
 if __name__ == '__main__':
 
     pid = ParseItemID()
@@ -451,15 +477,26 @@ if __name__ == '__main__':
     FILE_STR = 'CHARTEVENTS_reduced'
     mp = MimicParser()
 
-#    mp.reduce_total(ROOT + 'CHARTEVENTS.csv')
-#    mp.create_day_blocks(ROOT+ FOLDER + FILE_STR + '.csv')
-#    mp.add_admissions_columns(ROOT + FOLDER + FILE_STR + '_24_hour_blocks.csv')
-#    mp.add_patient_columns(ROOT + FOLDER + FILE_STR + '_24_hour_blocks_plus_admissions.csv')
+    mp.reduce_total(ROOT + 'CHARTEVENTS.csv')
+    mp.create_day_blocks(ROOT+ FOLDER + FILE_STR + '.csv')
+    mp.add_admissions_columns(ROOT + FOLDER + FILE_STR + '_24_hour_blocks.csv')
+    mp.add_patient_columns(ROOT + FOLDER + FILE_STR + '_24_hour_blocks_plus_admissions.csv')
     mp.clean_prescriptions(ROOT + FOLDER + FILE_STR + 
                          '_24_hour_blocks_plus_admissions_plus_patients.csv')
     mp.add_prescriptions(ROOT + FOLDER + FILE_STR + 
                          '_24_hour_blocks_plus_admissions_plus_patients.csv')
     mp.add_icd_infect(ROOT + FOLDER + FILE_STR + '_24_hour_blocks_plus_admissions_plus_patients_plus_scripts.csv') 
     mp.add_notes(ROOT + FOLDER + FILE_STR + '_24_hour_blocks_plus_admissions_plus_patients_plus_scripts_plus_icds.csv')    
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
 
 
