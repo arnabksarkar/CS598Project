@@ -294,6 +294,7 @@ def build_model(benchmark=False, attention=False, no_feature_cols=None, time_ste
         input_layer = Input(shape=(time_steps, no_feature_cols))
         x = Attention(input_layer, time_steps)
         x = Masking(mask_value=0, input_shape=(time_steps, no_feature_cols))(x)
+        # Team29 - Using GRU instead LSTM
         if isGRU:
             x = GRU(256,return_sequences=True)(x)
         else:

@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
-#julia add tensorflow.
+#Team29 add tensorflow.
 import tensorflow.keras.backend as K
 from tensorflow.keras.layers import multiply
-#julia from tensorflow.keras.layers.core import Dense, Reshape, Lambda, RepeatVector, Permute, Flatten
+#Team29 from tensorflow.keras.layers.core import Dense, Reshape, Lambda, RepeatVector, Permute, Flatten
 from tensorflow.keras.layers import Dense, Reshape, Lambda, RepeatVector, Permute, Flatten
-#julia from tensorflow.keras.layers.recurrent import LSTM
+#Team29 from tensorflow.keras.layers.recurrent import LSTM
 from tensorflow.keras.layers import LSTM
-#juliafrom tensorflow.keras.models import Model, Input
+#Team29 from tensorflow.keras.models import Model, Input
 from tensorflow.keras.models import Model
 from tensorflow.keras import Input
 
