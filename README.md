@@ -40,6 +40,15 @@ process_mimic.py contains classes for transforming the MIMIC-III tables into a p
 #### Evaluation
 Models and figures are generated in the .ipynb notebook. Simply adjusting the target to 'MI', 'Sepsis', or 'Vancomycin' will generate the figures panels and images required for each part of the figure.
 
+Team29_showattention_summarize.pynb will show the top 10 (n) attention features within each model.
+
+#### Experiments
+We tried to remove the attention model from the equation to see how the results are affected. If you wish to run that file please use
+Team29_rnn_mimic_py39_noAttn.pynb file to see the results. 
+
+
+
+
 
 
 
